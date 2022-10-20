@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;TajoSystemInfo.java&apos; to &apos;Team_4_0920_1/src/kr.or.tajo&apos;&#x0D;&#x0A;- Original project: &apos;Team_4_0920&apos;&#x0D;&#x0A;- Destination element: &apos;Team_4_0920_1/src/kr.or.tajo&apos;&#x0D;&#x0A;- Original element: &apos;kr.or.tajo.TajoSystemInfo.java&apos;" description="Copy compilation unit" destination="=Team_4_0920_1/src&lt;kr.or.tajo" element1="/src&lt;kr.or.tajo{TajoSystemInfo.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1663659344156" units="1" version="1.0"/>
+</session>

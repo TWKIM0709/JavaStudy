@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Move 2 elements to &apos;Design_Pattern_/src&apos;&#x0D;&#x0A;- Original project: &apos;Design_Pattern&apos;&#x0D;&#x0A;- Destination element: &apos;Design_Pattern_/src&apos;&#x0D;&#x0A;- Original elements:&#x0D;&#x0A;     Factory&#x0D;&#x0A;     Template&#x0D;&#x0A;- Update references to refactored element" description="Move folders" destination="=Design_Pattern_/src" element1="Design_Pattern/src/Factory" element2="Design_Pattern/src/Template" files="0" flags="589830" folders="2" id="org.eclipse.jdt.ui.move" policy="org.eclipse.jdt.ui.moveResources" qualified="false" references="true" stamp="1663060218436" units="0" version="1.0"/>
+</session>

@@ -1,0 +1,28 @@
+import java.util.List;
+
+import DAO.DeptDao;
+
+/*
+	MVC 패턴
+	
+	Model   	: 데이터 : DTO, DAO	>> java
+	View    	: 화면				>> jsp
+	Controller 	: 조종, 제어			>> servlet
+	
+	지금은..(10.05)
+	Model : DTO(vo) 데이터를 한건 담을 수 있는 클래스 , DAO DB작업 >> java
+	View  : java(console)
+	...
+*/
+public class Program {
+
+	public static void main(String[] args) {
+		//main 함수
+		DeptDao d = new DeptDao();
+		System.out.println("\t\t[전체조회]");
+		List<Dept> = d.getDeptAllList();
+//		d.getDeptListByDeptNo(10);
+//		d.getDeptByLikeDname("A%");
+	}
+
+}

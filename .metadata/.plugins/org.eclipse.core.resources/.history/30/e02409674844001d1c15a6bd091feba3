@@ -1,0 +1,37 @@
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
+import kr.or.kosa.SingletonHelper;
+
+/*
+		create table trans_A(
+		    num number,
+		    name varchar2(20)
+		);
+		create table trans_B(
+		    num number constraint pk_trans_B_num primary key,
+		    name varchar2(20)
+		);
+		
+		JDBC >> DML default : autocommit >> 실반영
+		JDBC >> autocommit false >> 반드시 [commit]|[rollback] 강제
+*/
+public class Ex07_Transaction {
+
+	public static void main(String[] args) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		PreparedStatement pstmt2 = null;
+		
+		conn = SingletonHelper.getConnection();
+		
+	}
+
+}
+
+
+
+
+
+
+

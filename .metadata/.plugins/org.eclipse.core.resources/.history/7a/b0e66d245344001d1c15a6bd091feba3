@@ -1,0 +1,112 @@
+package DAO;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+import DTO.Dept;
+import UTILS.SingletonHelper;
+
+//DAO 클래스 설계
+//1. DB 연결
+//2. CRUD 구현
+//3. 기본적으로 함수 5개 (하나의 테이블에 대해서..)
+//3.1 전체조회 , 조건조회 , 삽입 , 수정 , 삭제 기능
+
+public class DeptDao {
+	//1. 전체조회 >> select * from dept >> return multi row
+	public List<Dept> getDeptAllList(){
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "select * from dept";
+		List<Dept> deptList = new ArrayList<Dept>();
+		try {
+			conn = SingletonHelper.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				do {
+//					System.out.println(rs.getInt(1) + "/" + rs.getString(2) + "/" + rs.getString(3));
+					deptList.add(new Dept(rs.getInt(1),rs.getString(2),rs.getString(3)));
+				}while(rs.next());
+			} else {
+				System.out.println("조회된 데이터가 없습니다.");
+			}
+		} catch (Exception e) {
+			System.out.println("문제 발생 : " + e);
+		} finally {
+			SingletonHelper.close(rs);
+			SingletonHelper.close(pstmt);
+			SingletonHelper.close(conn);
+		}
+		return deptList;
+	}
+	
+	//2. 조건조회 (deptno pk) >> select * from dept where deptno = ? >> return single row
+	public Dept getDeptListByDeptNo(int deptno) {Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "select * from dept";
+		Dept dept = null;
+		try {
+			conn = SingletonHelper.getConnection("oracle");
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				dept = new Dept(rs.getInt(1),rs.getString(2),rs.getString(3));
+			} else {
+				System.out.println("조회된 데이터가 없습니다.");
+			}
+		} catch (Exception e) {
+			System.out.println("문제 발생 : " + e);
+		} finally {
+			SingletonHelper.close(rs);
+			SingletonHelper.close(pstmt);
+			SingletonHelper.close(conn);
+		}
+		return dept;
+	}
+	
+	//3. 데이터 삽입 >> insert into dept(deptno, dname, loc) values (?,?,?)
+	public int insertDept(Dept dept) {
+		
+		return 0;
+	}
+	
+	//4. 데이터 수정 >> update dept set dname=?, loc=? where deptno=?
+	public int updateDept(Dept dept) {
+		
+		return 0;
+	}
+	
+	//5. 데이터 삭제 >> delete from dept where deptno=?
+	public int deleteDept(int deptno) {
+		
+		return 0;
+	}
+	
+	//+ 필요에 따라서
+	//검색 like.. 여러개의 조건 조회... 등
+	public static void main(String[] args) {
+		DeptDao d = new DeptDao();
+		d.getDeptAllList();
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+

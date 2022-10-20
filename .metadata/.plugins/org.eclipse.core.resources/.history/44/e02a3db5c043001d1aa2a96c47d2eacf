@@ -1,0 +1,13 @@
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
+//sdept 테이블에 대해서
+//전체조회
+//조건조회
+//삽입
+//삭제
+//수정
+public class sdeptTest {
+	Connection conn;
+	PreparedStatement pstmt;
+}

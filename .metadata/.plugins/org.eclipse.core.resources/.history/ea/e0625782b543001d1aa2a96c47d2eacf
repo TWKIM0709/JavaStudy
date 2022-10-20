@@ -1,0 +1,30 @@
+package kr.or.kosa;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class SingletonHelper {
+	private static Connection conn;
+	private static SingletonHelper shelper = new SingletonHelper();
+	
+	private SingletonHelper() {
+		conn = null;
+	}
+	public static SingletonHelper getInstance() {
+		return shelper;
+	}
+	public static Connection getConnection(String dsn,String id, String pw) { 
+		try {
+			if(conn.isClosed()) {
+				if(dsn.toLowerCase().equals("oracle")) {
+					conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe",id,pw);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return conn;
+	}
+
+}

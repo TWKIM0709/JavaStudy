@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item key="selection" value="StringTo"/>
+		<item key="wrap" value="true"/>
+		<item key="casesensitive" value="false"/>
+		<item key="wholeword" value="false"/>
+		<item key="incremental" value="false"/>
+		<item key="isRegEx" value="false"/>
+		<list key="findhistory">
+			<item value="StringTo"/>
+			<item value="dept"/>
+			<item value="Dept"/>
+			<item value="conn = SingletonHelper.getConnection(&quot;oracle&quot;);"/>
+			<item value="Connection conn = null;"/>
+			<item value="반납"/>
+			<item value="충전"/>
+			<item value="instanceof"/>
+			<item value="관리자"/>
+			<item value="userDelete"/>
+			<item value="returnPro"/>
+			<item value="대여"/>
+			<item value="searchMenu"/>
+			<item value="ㅁ"/>
+			<item value="□"/>
+		</list>
+		<list key="replacehistory">
+			<item value="emp"/>
+			<item value="Emp"/>
+			<item value=""/>
+			<item value="□"/>
+			<item value="■"/>
+			<item value="ㅁ"/>
+			<item value="startTime"/>
+			<item value="public"/>
+			<item value="rentList"/>
+			<item value="MyDos3"/>
+			<item value="sal"/>
+			<item value="break boards;"/>
+			<item value="Car6"/>
+			<item value="airplaneTotalCount"/>
+			<item value="printChannelAndBrandName"/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item key="DIALOG_X_ORIGIN" value="872"/>
+		<item key="DIALOG_Y_ORIGIN" value="530"/>
+		<item key="DIALOG_WIDTH" value="418"/>
+		<item key="DIALOG_HEIGHT" value="570"/>
+		<item key="DIALOG_FONT_NAME" value="1|맑은 고딕|9.0|0|WINDOWS|1|-18|0|0|0|400|0|0|0|1|0|0|0|0|맑은 고딕"/>
+	</section>
+</section>

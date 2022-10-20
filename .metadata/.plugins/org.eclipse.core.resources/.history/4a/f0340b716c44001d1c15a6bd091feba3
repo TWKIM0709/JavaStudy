@@ -1,0 +1,186 @@
+package DAO;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+
+import DTO.Emp;
+import UTILS.SingletonHelper;
+//전체조회
+//조건조회 where empno=7788
+//삽입  insert into emp( ....) values(...)
+//삭제  delete from emp where empno=7788
+//수정  update emp set ename=? , job=? , sal=? , hiredate=?  where empno=?
+//Like 검색 이름 검색
+public class EmpDao {
+	Connection conn = null;
+	
+	public EmpDao() {
+		conn = SingletonHelper.getConnection("oracle");
+	}
+	
+	//1. 전체조회 >> select * from Emp >> return multi row
+	public List<Emp> getEmpAllList(){		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<Emp> empList = new ArrayList<Emp>();
+		try {			
+			String sql = "select * from emp";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				do {
+//					System.out.println(rs.getInt(1) + "/" + rs.getString(2) + "/" + rs.getString(3));
+					empList.add(new Emp(rs.getInt(1),rs.getString(2),rs.getString(3)));
+				}while(rs.next());
+			} else {
+				System.out.println("조회된 데이터가 없습니다.");
+			}
+		} catch (Exception e) {
+			System.out.println("전체조회 문제 발생 : " + e);
+		} finally {
+			SingletonHelper.close(rs);
+			SingletonHelper.close(pstmt);
+		}
+		return EmpList;
+	}
+	
+	//2. 조건조회 (Empno pk) >> select * from Emp where Empno = ? >> return single row
+	public Emp getEmpListByEmpNo(int Empno) {		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "select * from Emp where Empno=?";
+		Emp Emp = null;
+		try {			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, Empno);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+//				System.out.println(rs.getInt(1) + "/" + rs.getString(2) + "/" + rs.getString(3));
+				Emp = new Emp(rs.getInt(1),rs.getString(2),rs.getString(3));
+			} else {
+				System.out.println("조회된 데이터가 없습니다.");
+			}
+		} catch (Exception e) {
+			System.out.println("조건 조회 문제 발생 : " + e);
+		} finally {
+			SingletonHelper.close(rs);
+			SingletonHelper.close(pstmt);
+		}
+		return Emp;
+	}
+	
+	//3. 데이터 삽입 >> insert into Emp(Empno, dname, loc) values (?,?,?)
+	public int insertEmp(Emp Emp) {		
+		PreparedStatement pstmt = null;
+		String sql = "insert into Emp(Empno, dname, loc) values (?,?,?)";
+		int row = 0;
+		try {			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, Emp.getEmpno());
+			pstmt.setString(2, Emp.getDname());
+			pstmt.setString(3, Emp.getLoc());
+			
+			row = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			System.out.println("데이터 삽입 문제 발생 : " + e);
+		} finally {
+			SingletonHelper.close(pstmt);
+		}
+		return row;
+	}
+	
+	//4. 데이터 수정 >> update Emp set dname=?, loc=? where Empno=?
+	public int updateEmp(Emp Emp) {		
+		PreparedStatement pstmt = null;
+		String sql = "update Emp set dname=?, loc=? where Empno=?";
+		int row = 0;
+		try {			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, Emp.getDname());
+			pstmt.setString(2, Emp.getLoc());
+			pstmt.setInt(3, Emp.getEmpno());
+			
+			row = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			System.out.println("데이터 수정 문제 발생 : " + e);
+		} finally {
+			SingletonHelper.close(pstmt);
+		}
+		return row;
+	}
+	
+	//5. 데이터 삭제 >> delete from Emp where Empno=?
+	public int deleteEmp(int Empno) {		
+		PreparedStatement pstmt = null;
+		String sql = "delete from Emp where Empno=?";
+		int row = 0;
+		try {			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, Empno);
+			
+			row = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			System.out.println("데이터 수정 문제 발생 : " + e);
+		} finally {
+			SingletonHelper.close(pstmt);
+		}
+		return row;
+	}
+	//6. 전체조회 >> select * from Emp >> return multi row
+	public List<Emp> getEmpByLikeDname(String like){		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "select * from Emp where dname like ?";
+		List<Emp> EmpList = new ArrayList<Emp>();
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, like);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				do {
+//					System.out.println(rs.getInt(1) + "/" + rs.getString(2) + "/" + rs.getString(3));
+					EmpList.add(new Emp(rs.getInt(1),rs.getString(2),rs.getString(3)));
+				}while(rs.next());
+			} else {
+				System.out.println("조회된 데이터가 없습니다.");
+			}
+		} catch (Exception e) {
+			System.out.println("like조회 문제 발생 : " + e);
+		} finally {
+			SingletonHelper.close(rs);
+			SingletonHelper.close(pstmt);
+		}
+		return EmpList;
+	}
+	
+	//+ 필요에 따라서
+	//검색 like.. 여러개의 조건 조회... 등
+}
+
+
+
+
+
+
+
+
+
+
+
+

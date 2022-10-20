@@ -1,0 +1,8 @@
+word : C:\Temp\A.txt
+word : C:\Temp\new.txt
+word : C:\Temp\A.txt
+word : C:\Temp\new.txt
+word : C:\Temp\A.txt
+word : C:\Temp\new.txt
+word : C:\Temp\A.txt
+word : C:\Temp\new.txt

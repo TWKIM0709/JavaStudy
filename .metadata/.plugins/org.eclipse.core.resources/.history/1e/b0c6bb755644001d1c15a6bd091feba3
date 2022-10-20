@@ -1,0 +1,205 @@
+package DAO;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+import DTO.Dept;
+import UTILS.SingletonHelper;
+
+//DAO 클래스 설계
+//1. DB 연결
+//2. CRUD 구현
+//3. 기본적으로 함수 5개 (하나의 테이블에 대해서..)
+//3.1 전체조회 , 조건조회 , 삽입 , 수정 , 삭제 기능
+
+public class DeptDao {
+	//1. 전체조회 >> select * from dept >> return multi row
+	public List<Dept> getDeptAllList(){
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<Dept> deptList = new ArrayList<Dept>();
+		try {
+			conn = SingletonHelper.getConnection("oracle");
+			String sql = "select * from dept";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				do {
+//					System.out.println(rs.getInt(1) + "/" + rs.getString(2) + "/" + rs.getString(3));
+					deptList.add(new Dept(rs.getInt(1),rs.getString(2),rs.getString(3)));
+				}while(rs.next());
+			} else {
+				System.out.println("조회된 데이터가 없습니다.");
+			}
+		} catch (Exception e) {
+			System.out.println("전체조회 문제 발생 : " + e);
+		} finally {
+			SingletonHelper.close(rs);
+			SingletonHelper.close(pstmt);
+		}
+		return deptList;
+	}
+	
+	//2. 조건조회 (deptno pk) >> select * from dept where deptno = ? >> return single row
+	public Dept getDeptListByDeptNo(int deptno) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "select * from dept where deptno=?";
+		Dept dept = null;
+		try {
+			conn = SingletonHelper.getConnection("oracle");
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, deptno);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+//				System.out.println(rs.getInt(1) + "/" + rs.getString(2) + "/" + rs.getString(3));
+				dept = new Dept(rs.getInt(1),rs.getString(2),rs.getString(3));
+			} else {
+				System.out.println("조회된 데이터가 없습니다.");
+			}
+		} catch (Exception e) {
+			System.out.println("조건 조회 문제 발생 : " + e);
+		} finally {
+			SingletonHelper.close(rs);
+			SingletonHelper.close(pstmt);
+		}
+		return dept;
+	}
+	
+	//3. 데이터 삽입 >> insert into dept(deptno, dname, loc) values (?,?,?)
+	public int insertDept(Dept dept) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = "insert into dept(deptno, dname, loc) values (?,?,?)";
+		int row = 0;
+		try {
+			conn = SingletonHelper.getConnection("oracle");
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, dept.getDeptno());
+			pstmt.setString(2, dept.getDname());
+			pstmt.setString(3, dept.getLoc());
+			
+			row = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			System.out.println("데이터 삽입 문제 발생 : " + e);
+		} finally {
+			SingletonHelper.close(pstmt);
+		}
+		return row;
+	}
+	
+	//4. 데이터 수정 >> update dept set dname=?, loc=? where deptno=?
+	public int updateDept(Dept dept) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = "update dept set dname=?, loc=? where deptno=?";
+		int row = 0;
+		try {
+			conn = SingletonHelper.getConnection("oracle");
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, dept.getDname());
+			pstmt.setString(2, dept.getLoc());
+			pstmt.setInt(3, dept.getDeptno());
+			
+			row = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			System.out.println("데이터 수정 문제 발생 : " + e);
+		} finally {
+			SingletonHelper.close(pstmt);
+		}
+		return row;
+	}
+	
+	//5. 데이터 삭제 >> delete from dept where deptno=?
+	public int deleteDept(int deptno) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String sql = "delete from dept where deptno=?";
+		int row = 0;
+		try {
+			conn = SingletonHelper.getConnection("oracle");
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, deptno);
+			
+			row = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			System.out.println("데이터 수정 문제 발생 : " + e);
+		} finally {
+			SingletonHelper.close(pstmt);
+		}
+		return row;
+	}
+	//6. 전체조회 >> select * from dept >> return multi row
+	public List<Dept> getDeptByLikeDname(String like){
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = "select * from dept where dname like ?";
+		List<Dept> deptList = new ArrayList<Dept>();
+		System.out.println("a");
+		try {
+			conn = SingletonHelper.getConnection("oracle");
+			System.out.println("b");
+			pstmt = conn.prepareStatement(sql);
+			System.out.println("c");
+			
+			pstmt.setString(1, like);
+			System.out.println("d");
+			
+			rs = pstmt.executeQuery();
+			System.out.println("e");
+			
+			if(rs.next()) {
+				do {
+//					System.out.println(rs.getInt(1) + "/" + rs.getString(2) + "/" + rs.getString(3));
+					deptList.add(new Dept(rs.getInt(1),rs.getString(2),rs.getString(3)));
+				}while(rs.next());
+			} else {
+				System.out.println("조회된 데이터가 없습니다.");
+			}
+		} catch (Exception e) {
+			System.out.println("like조회 문제 발생 : " + e);
+		} finally {
+			SingletonHelper.close(rs);
+			SingletonHelper.close(pstmt);
+		}
+		return deptList;
+	}
+		
+	
+	
+	//+ 필요에 따라서
+	//검색 like.. 여러개의 조건 조회... 등
+	public static void main(String[] args) {
+		DeptDao d = new DeptDao();
+		d.getDeptAllList();
+		d.getDeptListByDeptNo(10);
+		d.getDeptByLikeDname("A%");
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,17 @@
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import kr.or.kosa.ConnectionHelper;
+
+public class Ex04_ConnectionHelper {
+
+	public static void main(String[] args) throws SQLException {
+		Connection conn = null;
+		conn = ConnectionHelper.getConnection("Oracle");
+		
+		System.out.println(conn.toString());
+		System.out.println(conn.getMetaData().getDatabaseProductName());
+		System.out.println(conn.getMetaData().getDatabaseProductVersion());
+	}
+
+}

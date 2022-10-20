@@ -1,0 +1,27 @@
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import kr.or.kosa.SingletonHelper;
+
+//sdept 테이블에 대해서
+//전체조회
+//조건조회
+//삽입
+//삭제
+//수정
+public class sdeptTest {
+	private Connection conn;
+	private ResultSet rs;
+	private PreparedStatement pstmt;
+	
+	public void connect() {
+		conn = SingletonHelper.getConnection();
+	}
+	public void close() {
+		SingletonHelper.close(conn);
+	}
+	public void selectAll() {
+		
+	}
+}

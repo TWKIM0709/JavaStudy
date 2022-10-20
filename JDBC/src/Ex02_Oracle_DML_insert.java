@@ -1,0 +1,92 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Scanner;
+
+/*
+ * DML(insert delete update)
+ * JDBC API 사용
+ * 1. 결과 집합이 없다(ResultSet 필요없다)
+ * 2. 반영 결과 확인 가능 ( return된 행의 수 ) >> ex) update 5번 - return 5 / insert 3번 - return 3
+ * 
+ * java 코드
+ * update emp set sal = 0 실행 > 14건 >> return 14
+ * update emp set sal = 100 where empno = 4444 > 0건 (4444 없음) >> return 0
+ * 결과가지고 java코드로 로직처리
+ * 
+ * KeyPoint
+ * 1. Oracle DML 작업 (developer , cmd(sqlplus), Tool) >> commit/rollback 을 강제
+ * 2. JDBC API를 사용해서(java코드를 통해) DML >> default : Auto commit
+ * 3. 필요에 따라서 commit , rollback 처리가 필요한 코드...트랜젝션
+ * 4. JDBC >> autocommit 옵션 조절 >> false 전환 >> java code에서 DML 작업에 대해 commit , rollback 강제됨 
+ * 
+ * 실습용 테이블 dmlemp 만듬
+ * */
+public class Ex02_Oracle_DML_insert {
+
+	public static void main(String[] args) {
+		
+		Connection conn = null;
+		Statement stmt = null;
+		try {
+			//드라이버 로딩은 생략 가능
+			//Class.forName("oracle.jdbc.OracleDriver");
+			
+			//Connection 인터페이스를 구현하고 있는 객체의 주소를 return
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","KOSA","1004");
+			stmt = conn.createStatement();
+			
+			//INSERT
+			int empno = 0;
+			String ename = "";
+			int deptno = 0;
+			
+			Scanner sc = new Scanner(System.in);
+			System.out.print("사번입력");
+			empno = Integer.parseInt(sc.nextLine());
+			System.out.print("이름입력");
+			ename = sc.nextLine();
+			System.out.print("부서번호입력");
+			deptno = Integer.parseInt(sc.nextLine());
+			//insert into dmlemp(empno,ename,deptno) values(100,'홍길동',10) 고전적인 방법
+			 String sql="insert into dmlemp(empno,ename,deptno) ";
+			 sql+= "values(" + empno + ",'" + ename + "'," + deptno+ ")";
+			
+			 //현재 
+			 //values(?,?,?)  >> ? parameter 별도 설정
+			 //executeUpdate() >> insert , update , delete  모두 수행
+			 int resultrow = stmt.executeUpdate(sql);
+			 
+			 if(resultrow > 0) {
+				 System.out.println("반영된 행의 수 : " + resultrow);
+			 }else {
+				 System.out.println("예외가 발생된 것이 아니고 : 반영된 행이 없다 ");
+			 }
+			 
+		} catch (Exception e) {
+			// 중복데이터 insert 해서 문제가 생기면 executeUpdate() 예외 발생
+			System.out.println("SQL 예외 발생 " + e.toString());
+		} finally {
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+}
+
+
+
+
+
+
